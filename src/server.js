@@ -57,7 +57,7 @@ console.log(listEndpoints(server))
 const port = process.env.PORT || 3005
 
 mongoose
-  .connect(process.env.MONGO_COMPASS + "/weather", {
+  .connect(process.env.ATLAS_URL + "/weather", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
