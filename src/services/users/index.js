@@ -1,5 +1,6 @@
 const express = require("express")
 const passport = require("passport")
+const axios = require("axios")
 
 const UserModel = require("./schema")
 const { authenticate, refresh } = require("../auth/tools")
@@ -107,29 +108,45 @@ usersRouter.get("/refreshToken", async (req, res, next) => {
   }
 })
 
-usersRouter.get(
-  "/googleLogin",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-)
+// usersRouter.get(
+//   "/googleLogin",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// )
 
-usersRouter.get(
-  "/googleRedirect",
-  passport.authenticate("google"),
-  async (req, res, next) => {
-    try {
-      res.cookie("accessToken", req.user.tokens.accessToken, {
-        httpOnly: true,
-      })
-      res.cookie("refreshToken", req.user.tokens.refreshToken, {
-        httpOnly: true,
-        path: "/users/refreshToken",
-      })
+// usersRouter.get(
+//   "/googleRedirect",
+//   passport.authenticate("google"),
+//   async (req, res, next) => {
+//     try {
+//       res.cookie("accessToken", req.user.tokens.accessToken, {
+//         httpOnly: true,
+//       })
+//       res.cookie("refreshToken", req.user.tokens.refreshToken, {
+//         httpOnly: true,
+//         path: "/users/refreshToken",
+//       })
 
-      res.status(200).redirect("http://localhost:3000/app")
-    } catch (error) {
-      next(error)
-    }
+//       res.status(200).redirect("http://localhost:3000/app")
+//     } catch (error) {
+//       next(error)
+//     }
+//   }
+// )
+
+//protected routes
+
+usersRouter.post("/weatherData", authorize, async (req, res, next) => {
+  console.log(req.body.city)
+  try {
+    const response = await axios.get(
+      `api.openweathermap.org/data/2.5/weather?q=${req.body.city}&appid=${process.env.WEATHER_APP_KEY}`
+    )
+
+    console.log(response.data)
+    res.send(response.data)
+  } catch (error) {
+    console.log({ error })
   }
-)
+})
 
 module.exports = usersRouter
