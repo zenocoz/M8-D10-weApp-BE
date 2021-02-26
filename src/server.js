@@ -41,9 +41,9 @@ server.use(
 )
 
 //routes
-// const usersRouter = require("./services/users")
+const usersRouter = require("./services/users")
 
-// server.use("/users", usersRouter)
+server.use("/users", usersRouter)
 
 //errors middleware
 
