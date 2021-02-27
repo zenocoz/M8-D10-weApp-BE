@@ -144,6 +144,8 @@ usersRouter.post("/weatherData", authorize, async (req, res, next) => {
     )
 
     console.log(response.data)
+    res.setHeader(("Access-Control-Allow-Origin", "*"))
+    res.header("Access-Control-Allow-Headers")
     res.send(response.data)
   } catch (error) {
     console.log({ error })
