@@ -12,33 +12,33 @@ const listEndpoints = require("express-list-endpoints")
 const cors = require("cors")
 
 //variables
-const whitelist = [process.env.FE_URL_PRODUCTION, process.env.FE_URL_DEV]
+// const whitelist = [process.env.FE_URL_PRODUCTION, process.env.FE_URL_DEV]
 
 //instances
 const server = express()
 
 server.use(express.json())
-// server.use(
-//   cors({
-//     origin:
-//       process.env.NODE_ENV === "production"
-//         ? process.env.FE_URL_PRODUCTION
-//         : process.env.FE_URL_DEV,
-//   })
-// )
-
 server.use(
   cors({
-    origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true) //origin is in the whitelist
-        console.log(origin)
-      } else {
-        callback(new Error("not allowed by Cors"))
-      }
-    },
+    origin:
+      process.env.NODE_ENV === "production"
+        ? process.env.FE_URL_PRODUCTION
+        : process.env.FE_URL_DEV,
   })
 )
+
+// server.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (whitelist.indexOf(origin) !== -1) {
+//         callback(null, true) //origin is in the whitelist
+//         console.log(origin)
+//       } else {
+//         callback(new Error("not allowed by Cors"))
+//       }
+//     },
+//   })
+// )
 
 //routes
 const usersRouter = require("./services/users")
