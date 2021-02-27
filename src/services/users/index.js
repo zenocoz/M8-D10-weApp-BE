@@ -140,7 +140,7 @@ usersRouter.post("/weatherData", authorize, async (req, res, next) => {
   console.log(req.body.city)
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&appid=${process.env.WEATHER_APP_KEY}&units=metric`
+      `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&appid=${process.env.WEATHER_APP_KEY}&units=metric`
     )
 
     console.log(response.data)
